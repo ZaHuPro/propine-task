@@ -1,12 +1,14 @@
 import csv from 'csv-parser';
-import { filePath } from './config';
 import { resolve } from 'path';
 import { Command } from 'commander';
+import cliProgress from 'cli-progress';
 import { createReadStream } from 'fs';
 import { get, set, mapKeys } from "lodash";
 import { validateDate, validateToken } from './utils';
+import { filePath, progressBarOptions } from './config';
 
 const program = new Command();
+const progressBar = new cliProgress.SingleBar(progressBarOptions);
 const calculatedData = {
     WITHDRAWAL: {},
     DEPOSIT: {},
@@ -22,7 +24,16 @@ const options = program
 
 console.log("options::", options);
 
+export const handleBalanceCalculation = () => {
+    const { WITHDRAWAL, DEPOSIT } = calculatedData;
+    mapKeys(WITHDRAWAL, (value, key) => {
+        calculatedData.BALANCE[key] = DEPOSIT[key] - value;
+        return value;
+    });
+}
+
 export const handleOnData = ({ timestamp, transaction_type, token, amount }) => {
+    progressBar.increment();
     if (options.token && options.token !== token) {
         return;
     }
@@ -35,19 +46,17 @@ export const handleOnData = ({ timestamp, transaction_type, token, amount }) => 
     calculatedData[transaction_type][token] += Number(amount);
 }
 
-export const handleBalanceCalculation = () => {
-    const { WITHDRAWAL, DEPOSIT } = calculatedData;
-    mapKeys(WITHDRAWAL, (value, key) => {
-        calculatedData.BALANCE[key] = DEPOSIT[key] - value;
-        return value;
-    });
+
+export const handleOnEnd = () => {
+    progressBar.stop();
+    handleBalanceCalculation()
+    console.log("calculatedData::", calculatedData)
+    console.table(calculatedData.BALANCE)
+    process.exit(0)
 }
 
 createReadStream(resolve(__dirname, filePath))
   .pipe(csv())
+  .on('headers', () => progressBar.start(30000000, 0))
   .on('data', handleOnData)
-  .on("end", () => {
-      handleBalanceCalculation()
-      console.log("calculatedData::", calculatedData)
-      process.exit(0)
-  })
+  .on("end", handleOnEnd)
