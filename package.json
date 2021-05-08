@@ -1,0 +1,25 @@
+{
+  "name": "propine-task",
+  "version": "1.0.0",
+  "description": "Test Assignment for Blockchain Engineer",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZaHuPro/propine-task.git"
+  },
+  "keywords": [
+    "assignment",
+    "blockchain",
+    "task",
+    "propine"
+  ],
+  "author": "Jakir Hussain",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZaHuPro/propine-task/issues"
+  },
+  "homepage": "https://github.com/ZaHuPro/propine-task#readme"
+}
