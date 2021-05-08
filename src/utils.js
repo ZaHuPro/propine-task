@@ -2,7 +2,7 @@ import _colors from 'colors';
 
 const errorLogger = (message) => {
   console.log(_colors.red(message));
-  process.exit(0)
+  process.exit(1)
 };
 
 export const validateDate = (input) => {
@@ -18,4 +18,3 @@ export const validateToken = (input) => {
   }
   return input.toUpperCase();
 };
-
