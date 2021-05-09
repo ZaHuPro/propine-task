@@ -1,21 +1,21 @@
-
+import ora from 'ora';
 import csv from 'csv-parser';
 import { Command } from 'commander';
 import { createReadStream } from 'fs';
-import cliProgress from 'cli-progress';
 import { get, set, mapKeys, keys } from 'lodash';
 import fetchTokenPriceInUSD from './service';
-import { filePath, progressBarOptions } from './config';
+import { filePath } from './config';
 import { errorLogger, validateDate, validateToken, logDataInTableView } from './utils';
 
 const program = new Command();
-const progressBar = new cliProgress.SingleBar(progressBarOptions);
+const spinner = ora({ text: '0', prefixText : "Processing CSV...", spinner: 'balloon'});
 const transformedData = {
   WITHDRAWAL: {},
   DEPOSIT: {},
   BALANCE: {},
   BALANCE_USD: {},
   TABLE_VIEW: [],
+  COLUMN_COUNT: 0
 };
 
 /**
@@ -57,7 +57,8 @@ const dataTransformer = (tokenPriceInUSD) => {
  * @param  {number} amount The amount transacted
  */
 const handleOnData = ({ timestamp, transaction_type, token, amount }) => {
-  progressBar.increment();
+  transformedData.COLUMN_COUNT ++
+  spinner.text = transformedData.COLUMN_COUNT.toString()
   if (options.token && options.token !== token) {
     return;
   }
@@ -74,7 +75,7 @@ const handleOnData = ({ timestamp, transaction_type, token, amount }) => {
  * Handles the final data after from "createReadStream"
  */
 const handleOnEnd = async () => {
-  progressBar.stop();
+  spinner.succeed()
   const tokensDeposited = keys(transformedData.DEPOSIT);
   const tokenPriceInUSD = await fetchTokenPriceInUSD(tokensDeposited);
   dataTransformer(tokenPriceInUSD);
@@ -91,6 +92,6 @@ const path = options.path || filePath
 createReadStream(path)
   .on('error', errorLogger)
   .pipe(csv())
-  .on('headers', () => progressBar.start(progressBarOptions.max, 0))
+  .on('headers', () => spinner.start())
   .on('data', handleOnData)
   .on('end', handleOnEnd);

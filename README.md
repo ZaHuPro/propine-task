@@ -1,6 +1,6 @@
 # Propine programming task
 
-A command line program that handle the CSV of the crypto investor transactions
+A command line program that handles the CSV of the crypto investor transactions
 
 ## Installation 
 
@@ -20,7 +20,7 @@ Returns the latest portfolio value per token in USD
 npm run start
 ```
 ###  Specifying the token
-Returns the latest portfolio value for that token in USD
+Returns the latest portfolio value for respective token in USD
 
 ```js   
 npm run start -- -t BTC
@@ -28,14 +28,14 @@ npm run start -- -t BTC
 > Note: BTC can be replaced with any token symbol.
 
 ###  Specifying the date
-Returns the portfolio value per token in USD on that date
+Returns the portfolio value per token in USD on that respective date
 
 ```js   
 npm run start -- -d 1571815546
 
 or
 
-npm run dev -- -d "Sun May 09 2021 23:29:40 GMT+0530 (India Standard Time)"
+npm run start -- -d "Sun May 09 2021 23:29:40 GMT+0530 (India Standard Time)"
 ```
 > Note: Date can be a unix epoch or a valid date.
 
@@ -55,8 +55,6 @@ npm run start -- -d 1571815546 -t BTC
 ```
 
 ## Example Output
-
-Processing CSV... |██████████████████████| 100% || 30000000/30000000
 
 |  Symbol  |  Overall Deposit  |  Overall Withdraw  |      Balance      |  Balance in USD Price  |
 | :------- | :---------------- | :----------------- | :---------------- | :--------------------- |
