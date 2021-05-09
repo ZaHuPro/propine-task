@@ -1,13 +1,12 @@
 
 import csv from 'csv-parser';
-import { resolve } from 'path';
 import { Command } from 'commander';
 import { createReadStream } from 'fs';
 import cliProgress from 'cli-progress';
 import { get, set, mapKeys, keys } from 'lodash';
 import fetchTokenPriceInUSD from './service';
 import { filePath, progressBarOptions } from './config';
-import { validateDate, validateToken, logDataInTableView } from './utils';
+import { errorLogger, validateDate, validateToken, logDataInTableView } from './utils';
 
 const program = new Command();
 const progressBar = new cliProgress.SingleBar(progressBarOptions);
@@ -20,9 +19,11 @@ const calculatedData = {
 };
 
 const options = program
-  .helpOption('-h, --help', 'Help message')
-  .option('-d, --date <seconds>', 'Date to filter the data', validateDate)
-  .option('-t, --token <symbol>', 'Token symbol to filter the data', validateToken)
+.command('clone <source> [destination]')
+  .helpOption('-h, --help', 'help message')
+  .option('-d, --date <date>', 'date to filter the data', validateDate)
+  .option('-t, --token <symbol>', 'token symbol to filter the data', validateToken)
+  .option('-p, --path <path>', 'full path of the CSV file')
   .parse(process.argv)
   .opts();
 
@@ -65,7 +66,9 @@ const handleOnEnd = async () => {
   process.exit(0);
 };
 
-createReadStream(resolve(__dirname, filePath))
+const path = options.path || filePath
+createReadStream(path)
+  .on('error', errorLogger)
   .pipe(csv())
   .on('headers', () => progressBar.start(progressBarOptions.max, 0))
   .on('data', handleOnData)

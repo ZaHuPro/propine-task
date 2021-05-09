@@ -1,7 +1,7 @@
 import _colors from 'colors';
 import CliTable from 'cli-table';
 
-const errorLogger = (message) => {
+export const errorLogger = (message) => {
   console.log(_colors.red(message));
   process.exit(1);
 };
