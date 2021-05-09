@@ -18,7 +18,6 @@ const transformedData = {
   TABLE_VIEW: [],
 };
 
-
 /**
  * Handling the command-line interfaces
  * @return  {object}  extracted options defined in commands line
