@@ -2,7 +2,7 @@ import _colors from 'colors';
 import CliTable from 'cli-table';
 
 /**
- * Logging the error in console with red color and exiting the process
+ * To log the error in the console with red color and exiting the process
  * @param  {string|object} message Message to be logged in the console
  */
 export const errorLogger = (message) => {
@@ -11,7 +11,7 @@ export const errorLogger = (message) => {
 };
 
 /**
- * Validated the date of cli option
+ * Validates the date of cli option
  * @param  {string|number} input Date string or the Unix epoch
  * @returns  {number} Valid unix epoch integer
  */
@@ -27,7 +27,7 @@ export const validateDate = (input) => {
 };
 
 /**
- * Validated the token of cli option
+ * Validates the token of cli option
  * @param  {string} input The token symbol
  * @returns  {number} Valid string in upper case
  */
@@ -39,7 +39,7 @@ export const validateToken = (input) => {
 };
 
 /**
- * Logging the data in table view on the console 
+ * To log the data in table view on the console 
  * @param  {object} transformedData Modified final data from the CSV
  * @param  {object} options Extracted options defined in commands line
  */

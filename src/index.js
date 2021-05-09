@@ -20,8 +20,8 @@ const transformedData = {
 
 
 /**
- * Handling command-line interfaces
- * @param  {object} options extracted options defined in commands line
+ * Handling the command-line interfaces
+ * @return  {object}  extracted options defined in commands line
  */
 const options = program
   .command('clone <source> [destination]')
@@ -33,7 +33,7 @@ const options = program
   .opts();
 
 /**
- * Transforming and updating the data in 'transformedData' variable
+ * Transforms and updates the data in 'transformedData' variable
  * @param  {object} tokenPriceInUSD Extracted data from the external API
  */
 const dataTransformer = (tokenPriceInUSD) => {
@@ -51,7 +51,7 @@ const dataTransformer = (tokenPriceInUSD) => {
 };
 
 /**
- * Extracting the data as per the cli option by each column for the CSV
+ * Extracts the data as per the cli option by each column for the CSV
  * @param  {number} timestamp Integer number of seconds since the Epoch
  * @param  {string} transaction_type Either a DEPOSIT or a WITHDRAWAL
  * @param  {string} token The token symbol
@@ -72,7 +72,7 @@ const handleOnData = ({ timestamp, transaction_type, token, amount }) => {
 };
 
 /**
- * Final handle of the data after the "createReadStream" completed
+ * Handles the final data after from "createReadStream"
  */
 const handleOnEnd = async () => {
   progressBar.stop();
