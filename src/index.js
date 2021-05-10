@@ -23,7 +23,6 @@ const transformedData = {
  * @return  {object}  extracted options defined in commands line
  */
 const options = program
-  .command('clone <source> [destination]')
   .helpOption('-h, --help', 'help message')
   .option('-d, --date <date>', 'date to filter the data', validateDate)
   .option('-t, --token <symbol>', 'token symbol to filter the data', validateToken)
