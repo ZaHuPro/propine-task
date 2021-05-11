@@ -3,7 +3,7 @@ import CliTable from 'cli-table';
 
 /**
  * To log the error in the console with red color and exiting the process
- * @param  {string|object} message Message to be logged in the console
+ * @param  {string|object} message Error message to be logged in the console
  */
 export const errorLogger = (message) => {
   console.log(_colors.red(message));
@@ -12,16 +12,13 @@ export const errorLogger = (message) => {
 
 /**
  * Validates the date of cli option
- * @param  {string|number} input Date string or the Unix epoch
- * @returns  {number} Valid unix epoch integer
+ * @param  {number} input The Unix epoch seconds
+ * @returns  {object} Valid date object
  */
 export const validateDate = (input) => {
-  if (!Number.isNaN(Number(input))) {
-    input = Number(input);
-  }
-  const dateIs = new Date(input).getTime();
-  if (Number.isNaN(dateIs)) {
-    return errorLogger("option '-d, --date <Date>' value for argument 'Date' is not a valid date");
+  const dateIs = new Date(+input);
+  if (Number.isNaN(dateIs.valueOf())) {
+    return errorLogger("option '-d, --date <Date>' value for argument 'Date' is not a valid integer of unix epoch");
   }
   return dateIs;
 };
@@ -40,16 +37,11 @@ export const validateToken = (input) => {
 
 /**
  * To log the data in table view on the console 
- * @param  {object} transformedData Modified final data from the CSV
- * @param  {object} options Extracted options defined in commands line
+ * @param  {object} tableData Modified data for the table view
  */
-export const logDataInTableView = (transformedData, options) => {
+export const logDataInTableView = (tableData) => {
   const head = ['Symbol', 'Overall Deposit', 'Overall Withdraw', 'Balance', 'Balance in USD Price'];
-  if (options.date) {
-    head.push('Unix time');
-    head.push('GMT time');
-  }
   const table = new CliTable({ head });
-  table.push(...transformedData.TABLE_VIEW);
+  table.push(...tableData);
   console.log(table.toString());
 };
