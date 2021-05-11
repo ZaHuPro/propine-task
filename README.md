@@ -32,12 +32,8 @@ Returns the portfolio value per token in USD on that respective date
 
 ```js   
 npm run start -- -d 1571815546
-
-or
-
-npm run start -- -d "Sun May 09 2021 23:29:40 GMT+0530 (India Standard Time)"
 ```
-> Note: Date can be a unix epoch or a valid date.
+> Note: Date should be a unix epoch seconds.
 
 ###  Specifying the CSV file path
 Will read the CSV file form the specified path
