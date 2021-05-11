@@ -41,7 +41,7 @@ Will read the CSV file form the specified path
 ```js   
 npm run start -- -p /Volumes/propine-task/assets/transactions.csv   
 ```
-> Note: Should be full path of the file
+> Note: Path should be the full path of the file
 
 
 ###  Specifying multiple options
